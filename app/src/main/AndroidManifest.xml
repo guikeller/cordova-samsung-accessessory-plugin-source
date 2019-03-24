@@ -1,0 +1,39 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.guikeller.cordova.samsung.accessory">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Companion" />
+    <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
+    <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+
+    <application>
+
+        <!-- Samsung Agent Service Implementation -->
+        <service android:name="com.github.guikeller.cordova.samsung.accessory.SamsungAccessoryAgent" />
+
+        <!-- Samsung Accessory Framework Boilerplate Configuration -->
+        <receiver android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver" >
+            <intent-filter>
+                <action android:name="com.samsung.accessory.action.REGISTER_AGENT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="com.samsung.accessory.action.SERVICE_CONNECTION_REQUESTED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Samsung Accessory Framework Boilerplate Configuration -->
+        <meta-data
+            android:name="AccessoryServicesLocation"
+            android:value="/res/xml/samsung_accessory.xml" />
+
+        <meta-data
+            android:name="GearAppType"
+            android:value="wgt" />
+    </application>
+
+</manifest>
