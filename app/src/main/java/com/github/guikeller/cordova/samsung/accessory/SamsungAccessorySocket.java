@@ -29,7 +29,7 @@ public class SamsungAccessorySocket extends SASocket {
 
     @Override
     public void onReceive(int channelId, byte[] data) {
-        Log.i(TAG, "onReceive :: data: "+data);
+        Log.i(TAG, "onReceive :: data: "+new String(data, StandardCharsets.UTF_8));
         if (messageListener != null){
             String msgReceived = new String(data, StandardCharsets.UTF_8);
             messageListener.messageReceived(msgReceived);
