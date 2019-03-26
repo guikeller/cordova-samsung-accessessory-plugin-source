@@ -35,25 +35,28 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
     }
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         Log.i(TAG, "execute :: actions/args: " + action + "/" + args);
-        CordovaSamsungAccessoryPluginAction cordovaPluginAction = CordovaSamsungAccessoryPluginAction.fromValue(action);
-        switch (cordovaPluginAction){
-            case INIT:
-                init(callbackContext);
-                break;
-            case SHUTDOWN:
-                shutdown(callbackContext);
-                break;
-            case SEND_MESSAGE:
-                sendMessage(args, callbackContext);
-                break;
-            case REGISTER_MESSAGE_LISTENER:
-                registerMessageListener(callbackContext);
-                break;
-            default:
-                return false;
-        }
+        this.cordovaInterface.getThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                CordovaSamsungAccessoryPluginAction cordovaPluginAction = CordovaSamsungAccessoryPluginAction.fromValue(action);
+                switch (cordovaPluginAction) {
+                    case INIT:
+                        init(callbackContext);
+                        break;
+                    case SHUTDOWN:
+                        shutdown(callbackContext);
+                        break;
+                    case SEND_MESSAGE:
+                        sendMessage(args, callbackContext);
+                        break;
+                    case REGISTER_MESSAGE_LISTENER:
+                        registerMessageListener(callbackContext);
+                        break;
+                }
+            }
+        });
         return true;
     }
 
@@ -67,8 +70,10 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
             context.startService(this.intent);
             this.serviceConnection = new SamsungAccessoryServiceConnection();
             context.bindService(this.intent, this.serviceConnection, Context.BIND_AUTO_CREATE);
+            callbackContext.success(TAG + "::Success: Accessory SDK initialised");
+        } else {
+            callbackContext.error(TAG+"::Error: Accessory SDK already initialised");
         }
-        callbackContext.success("SamsungAccessoryAgent initialised");
     }
 
     protected void shutdown(CallbackContext callbackContext) {
@@ -76,17 +81,23 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
         if (this.intent != null) {
             Activity context = this.cordovaInterface.getActivity();
             context.stopService(this.intent);
+            callbackContext.success(TAG + "::Success: Accessory SDK Stopped");
+        }else{
+            callbackContext.error(TAG+"::Error: Accessory SDK does not seem to be running");
         }
-        callbackContext.success("SamsungAccessoryAgent stopped");
     }
 
     protected void registerMessageListener(CallbackContext callbackContext) {
-        Log.i(TAG,"registerMessageListener :: listener: "+callbackContext);
+        Log.i(TAG,"registerMessageListener::listener: "+callbackContext);
         if (this.serviceConnection != null && this.serviceConnection.getService() != null) {
             SamsungAccessoryMessageListener listener = createSamsungMessageListener(callbackContext);
             this.serviceConnection.getService().registerMessageListener(listener);
+            // No result is sent back initially, the actual results are sent in the listener
+            PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
         } else {
-            callbackContext.error("Service not ready, call init or try again");
+            callbackContext.error(TAG + "::Error: Accessory SDK not ready, call init or try again");
         }
     }
 
@@ -96,12 +107,12 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
             if (this.serviceConnection != null && this.serviceConnection.getService() != null) {
                 String msg = args.getString(0);
                 this.serviceConnection.getService().sendMessage(msg);
-                callbackContext.success("Message sent");
+                callbackContext.success(TAG+"::Success: Message Sent");
             } else {
-                callbackContext.error("Service not ready, call init or try again");
+                callbackContext.error(TAG+"::Error: Service not ready, call init or try again");
             }
         } catch (Exception ex) {
-            callbackContext.error("Not able to send message: "+ex.getMessage());
+            callbackContext.error(TAG+"::Error: Not able to send message: "+ex.getMessage());
         }
     }
 

@@ -5,8 +5,6 @@ import android.util.Log;
 import com.samsung.android.sdk.accessory.SASocket;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The underlying protocol, used to sends and receives messages
