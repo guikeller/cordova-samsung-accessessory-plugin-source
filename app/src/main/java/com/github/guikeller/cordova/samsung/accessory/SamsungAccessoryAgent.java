@@ -58,6 +58,21 @@ public class SamsungAccessoryAgent extends SAAgent {
         }
     }
 
+    @Override
+    protected void onFindPeerAgentsResponse(SAPeerAgent[] peerAgents, int result) {
+        Log.i(TAG, "onFindPeerAgentsResponse");
+        if ((result == SAAgent.PEER_AGENT_FOUND) && (peerAgents != null)) {
+            for(SAPeerAgent peerAgent : peerAgents) {
+                super.requestServiceConnection(peerAgent);
+            }
+        }
+    }
+
+    public void findPeers() {
+        Log.i(TAG, "onFindPeerAgentsResponse");
+        super.findPeerAgents();
+    }
+
     public void sendMessage(String msg){
         try {
             Log.i(TAG,"sendMessage :: msg: "+msg);

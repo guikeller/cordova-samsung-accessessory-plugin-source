@@ -13,6 +13,10 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+/**
+ * CordovaPlugin entry point for the SamsungAccessory implementation
+ * The plugin is the 'consumer', meaning that the 'tizen' device has to provide the 'provider'.
+ */
 public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
 
     private static final String TAG = CordovaSamsungAccessoryPlugin.class.getSimpleName();
@@ -48,6 +52,8 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
                     case SHUTDOWN:
                         shutdown(callbackContext);
                         break;
+                    case FIND_PEER:
+                        findPeer(callbackContext);
                     case SEND_MESSAGE:
                         sendMessage(args, callbackContext);
                         break;
@@ -111,6 +117,21 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
             } else {
                 callbackContext.error(TAG+"::Error: Service not ready, call init or try again");
             }
+        } catch (Exception ex) {
+            callbackContext.error(TAG+"::Error: Not able to send message: "+ex.getMessage());
+        }
+    }
+
+    protected void findPeer(CallbackContext callbackContext) {
+        try {
+            Log.i(TAG, "findPeers");
+            if (this.serviceConnection != null && this.serviceConnection.getService() != null) {
+                this.serviceConnection.getService().findPeers();
+                callbackContext.success(TAG+"::Success: Message Sent");
+            } else {
+                callbackContext.error(TAG+"::Error: Service not ready, call init or try again");
+            }
+            callbackContext.success(TAG+"::Success: Message Sent");
         } catch (Exception ex) {
             callbackContext.error(TAG+"::Error: Not able to send message: "+ex.getMessage());
         }

@@ -6,6 +6,7 @@ public enum CordovaSamsungAccessoryPluginAction {
 
     INIT("init"),
     SHUTDOWN("shutdown"),
+    FIND_PEER("findPeer"),
     SEND_MESSAGE("sendMessage"),
     REGISTER_MESSAGE_LISTENER("registerMessageListener");
 

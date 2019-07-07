@@ -28,25 +28,25 @@
 
 <resources>
 
-<application name="CordovaSamsungAccessoryAgent" >
-    <serviceProfile
-        id="/samsung/accessory/provider/cordova/plugin"
-        name="CordovaSamsungAccessoryPlugin"
-        role="provider"
-        serviceImpl="com.github.guikeller.cordova.samsung.accessory.SamsungAccessoryAgent"
-        version="1.0"
-        serviceLimit="ANY"
-        serviceTimeout="10">
-        <supportedTransports>
-            <transport type="TRANSPORT_BT" />
-            <transport type="TRANSPORT_WIFI" />
-        </supportedTransports>
-        <serviceChannel
-            id="7219"
-            dataRate="low"
-            priority="low"
-            reliability="enable"/>
-    </serviceProfile>
-</application>
+    <application name="CordovaSamsungAccessoryAgent" >
+        <serviceProfile
+            id="/cordova/samsung/accs/plugin"
+            name="CordovaSamsungAccessoryPlugin"
+            role="consumer"
+            serviceImpl="com.github.guikeller.cordova.samsung.accessory.SamsungAccessoryAgent"
+            version="1.0"
+            serviceLimit="ANY"
+            serviceTimeout="10">
+            <supportedTransports>
+                <transport type="TRANSPORT_BT" />
+                <transport type="TRANSPORT_WIFI" />
+            </supportedTransports>
+            <serviceChannel
+                id="7219"
+                dataRate="low"
+                priority="low"
+                reliability="enable"/>
+        </serviceProfile>
+    </application>
 
 </resources>
