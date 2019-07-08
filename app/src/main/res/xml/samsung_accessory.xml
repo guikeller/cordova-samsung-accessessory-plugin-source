@@ -28,10 +28,10 @@
 
 <resources>
 
-    <application name="CordovaSamsungAccessoryAgent" >
+    <application name="CordovaSamsungPluginApp" >
         <serviceProfile
             id="/cordova/samsung/accs/plugin"
-            name="CordovaSamsungAccessoryPlugin"
+            name="CordovaSamsungPlugin"
             role="consumer"
             serviceImpl="com.github.guikeller.cordova.samsung.accessory.SamsungAccessoryAgent"
             version="1.0"
