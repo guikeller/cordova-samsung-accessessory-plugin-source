@@ -43,8 +43,8 @@
             </supportedTransports>
             <serviceChannel
                 id="7219"
-                dataRate="low"
-                priority="low"
+                dataRate="high"
+                priority="high"
                 reliability="enable"/>
         </serviceProfile>
     </application>

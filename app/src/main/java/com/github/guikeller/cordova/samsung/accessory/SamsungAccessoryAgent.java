@@ -76,8 +76,13 @@ public class SamsungAccessoryAgent extends SAAgent {
     public void sendMessage(String msg){
         try {
             Log.i(TAG,"sendMessage :: msg: "+msg);
-            int channelId = getServiceChannelId(0);
-            this.samsungServiceSocket.send(channelId, msg.getBytes());
+            if (this.samsungServiceSocket != null && msg != null) {
+                int channelId = getServiceChannelId(0);
+                this.samsungServiceSocket.send(channelId, msg.getBytes());
+                Log.i(TAG, "Message sent successfully");
+            } else {
+                Log.w(TAG, "Message not sent, socket: "+this.samsungServiceSocket);
+            }
         }catch (IOException ioex) {
             Log.e(TAG, ioex.getMessage(), ioex);
         }
