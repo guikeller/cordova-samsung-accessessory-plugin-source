@@ -54,6 +54,7 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
                         break;
                     case FIND_PEER:
                         findPeer(callbackContext);
+                        break;
                     case SEND_MESSAGE:
                         sendMessage(args, callbackContext);
                         break;
