@@ -95,7 +95,7 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
     }
 
     protected void registerMessageListener(CallbackContext callbackContext) {
-        Log.i(TAG,"registerMessageListener::listener: "+callbackContext);
+        Log.i(TAG,"registerMessageListener :: listener: "+callbackContext);
         if (this.serviceConnection != null && this.serviceConnection.getService() != null) {
             SamsungAccessoryMessageListener listener = createSamsungMessageListener(callbackContext);
             this.serviceConnection.getService().registerMessageListener(listener);
@@ -144,7 +144,7 @@ public class CordovaSamsungAccessoryPlugin extends CordovaPlugin {
         SamsungAccessoryMessageListener listener = new SamsungAccessoryMessageListener() {
             @Override
             public void messageReceived(String msg) {
-                Log.i(TAG,"listener::messageReceived: "+msg);
+                Log.i(TAG,"listener :: messageReceived: "+msg);
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, msg);
                 pluginResult.setKeepCallback(true);
                 CordovaSamsungAccessoryPlugin.this.callbackContext.sendPluginResult(pluginResult);

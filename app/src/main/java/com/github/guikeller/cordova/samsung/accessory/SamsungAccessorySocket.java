@@ -13,7 +13,9 @@ import java.nio.charset.StandardCharsets;
 public class SamsungAccessorySocket extends SASocket {
 
     private static final String TAG = SamsungAccessorySocket.class.getSimpleName();
-    private SamsungAccessoryMessageListener messageListener = null;
+    private static final int CHANNEL_ID = 7219;
+
+    private static SamsungAccessoryMessageListener messageListener;
 
     public SamsungAccessorySocket() {
         super(SamsungAccessorySocket.class.getName());
@@ -28,7 +30,7 @@ public class SamsungAccessorySocket extends SASocket {
     @Override
     public void onReceive(int channelId, byte[] data) {
         Log.i(TAG, "onReceive :: data: "+new String(data, StandardCharsets.UTF_8));
-        if (messageListener != null){
+        if (CHANNEL_ID == channelId && messageListener != null){
             String msgReceived = new String(data, StandardCharsets.UTF_8);
             messageListener.messageReceived(msgReceived);
         }

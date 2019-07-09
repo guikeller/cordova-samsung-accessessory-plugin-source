@@ -10,7 +10,8 @@ import android.util.Log;
 public class SamsungAccessoryBinder extends Binder {
 
     private static final String TAG = SamsungAccessoryBinder.class.getSimpleName();
-    private SamsungAccessoryAgent service;
+
+    private static SamsungAccessoryAgent service;
 
     public SamsungAccessoryBinder(SamsungAccessoryAgent service) {
         Log.i(TAG, "constructor");

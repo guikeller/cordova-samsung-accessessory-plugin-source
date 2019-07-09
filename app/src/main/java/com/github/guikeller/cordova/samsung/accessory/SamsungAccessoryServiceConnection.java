@@ -12,8 +12,9 @@ import android.util.Log;
 public class SamsungAccessoryServiceConnection implements ServiceConnection {
 
     private static final String TAG = SamsungAccessoryServiceConnection.class.getSimpleName();
-    private boolean serviceBound;
-    private IBinder service;
+
+    private static boolean serviceBound;
+    private static IBinder service;
 
     public SamsungAccessoryServiceConnection() {
         super();

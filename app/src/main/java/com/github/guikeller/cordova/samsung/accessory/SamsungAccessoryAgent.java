@@ -21,6 +21,7 @@ public class SamsungAccessoryAgent extends SAAgent {
 
     private static final String TAG = SamsungAccessoryAgent.class.getSimpleName();
     private static final Class<SamsungAccessorySocket> SA_SOCKET_CLASS = SamsungAccessorySocket.class;
+
     private SamsungAccessorySocket samsungServiceSocket;
 
     public SamsungAccessoryAgent() {
@@ -69,7 +70,7 @@ public class SamsungAccessoryAgent extends SAAgent {
     }
 
     public void findPeers() {
-        Log.i(TAG, "onFindPeerAgentsResponse");
+        Log.i(TAG, "findPeers");
         super.findPeerAgents();
     }
 
